@@ -1,74 +1,145 @@
-# Welcome to your Lovable project
+# AXIO – Landing Page Oficial
 
-## Project info
+Landing page desenvolvida com **React + Vite + TypeScript + TailwindCSS**, criada para apresentar a AXIO — uma plataforma de automação inteligente para negócios que precisam organizar atendimento, reduzir faltas e modernizar o contato com clientes via WhatsApp.
 
-**URL**: https://lovable.dev/projects/ea7c2a96-a59e-4109-b654-e06b86bcc472
+---
 
-## How can I edit this code?
+## 🚀 Tecnologias Utilizadas
 
-There are several ways of editing your application.
+- **React 18**
+- **Vite**
+- **TypeScript**
+- **TailwindCSS**
+- **Lucide Icons**
+- **Componentes UI personalizados (Lovable base)**
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/ea7c2a96-a59e-4109-b654-e06b86bcc472) and start prompting.
+## 📂 Estrutura do Projeto
 
-Changes made via Lovable will be committed automatically to this repo.
+src/
+components/ → Botões, Header, Seções da página
+hooks/ → Hooks reutilizáveis
+lib/ → Utilidades (ex: constantes do WhatsApp)
+pages/ → Estrutura principal da LP
+styles/ → CSS base + configurações Tailwind
+App.tsx → Renderização geral
+main.tsx → Entrada da aplicação
+index.html → Template base
+tailwind.config.ts
+vite.config.ts
+package.json
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## ▶️ Como Rodar Localmente
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Certifique-se de ter **Node 18+** instalado.
 
-Follow these steps:
+### 1. Instale as dependências
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+npm install
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### 2. Rode o servidor de desenvolvimento
 
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
-```
 
-**Edit a file directly in GitHub**
+Acesse em:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+http://localhost:5173
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🛠 Ajustes Personalizáveis
 
-## What technologies are used for this project?
+### 🔗 Link do WhatsApp
 
-This project is built with:
+Configurado em:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+src/lib/whatsapp.ts
 
-## How can I deploy this project?
+Edite:
 
-Simply open [Lovable](https://lovable.dev/projects/ea7c2a96-a59e-4109-b654-e06b86bcc472) and click on Share -> Publish.
+export const WHATSAPP_NUMBER = "5587xxxxxxxx";
+export const MSG_ATENDIMENTO = encodeURIComponent("Sua mensagem padrão");
+export const MSG_DEMO = encodeURIComponent("Mensagem para demonstração");
 
-## Can I connect a custom domain to my Lovable project?
+Essas constantes são usadas nos botões de contato distribuídos pela LP.
 
-Yes, you can!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## 📦 Build para Produção
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
-# LP_Axio
+Para gerar os arquivos prontos para subir ao servidor:
+
+npm run build
+
+Os arquivos finais ficarão em:
+
+dist/
+
+---
+
+## 🚀 Deploy Manual (qualquer servidor)
+
+1. Rode:
+
+npm run build
+
+2. Faça upload da pasta dist/ para o seu servidor
+3. Configure o servidor para servir o arquivo:
+
+/dist/index.html
+
+como página inicial.
+
+---
+
+## 🎨 Customização de Estilos
+
+O tema utiliza:
+
+- Paleta **dark** com acentos em amarelo
+- Gradientes configurados no :root
+- Tailwind com tokens personalizados em:
+
+src/index.css
+
+Você pode ajustar:
+
+- cores
+- espaçamentos
+- sombras
+- gradientes
+- animações
+
+Diretamente via Tailwind ou nas variáveis CSS do projeto.
+
+---
+
+## 🧪 Recursos Inclusos
+
+- Header fixo com CTA de WhatsApp
+- Seção Hero animada
+- Sessões explicativas
+- Grid de segmentos atendidos
+- Botões com hover suave
+- Ícones do Lucide
+- Layout totalmente responsivo
+
+---
+
+## 📞 Contato
+
+**+55 87 99607 5897**
+**+55 87 98153 1743**
+
+Projeto desenvolvido para apresentação da **AXIO — Automação Inteligente para Negócios**.
+
+---
+
+## 📄 Licença
+
+Uso pessoal e interno da AXIO.
+
+© 2025 AXIO – Todos os direitos reservados.
