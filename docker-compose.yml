@@ -10,6 +10,7 @@ services:
     labels:
       # Habilitar Traefik
       - "traefik.enable=true"
+      - "traefik.docker.network=gestto_gestto-network"
 
       # Configuração HTTP (redireciona para HTTPS)
       - "traefik.http.routers.axio-lp-http.rule=Host(`axiodev.cloud`) || Host(`www.axiodev.cloud`)"
