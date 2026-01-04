@@ -33,6 +33,7 @@ npm run lint         # Lint do código
 ## ✨ Features da Landing Page
 
 ### Seções:
+
 - ✅ Hero Section com foco em resultados
 - ✅ Logos Section (clientes e métricas)
 - ✅ Seção destacada do **Gestto** (produto principal)
@@ -42,6 +43,7 @@ npm run lint         # Lint do código
 - ✅ Footer completo com 4 colunas
 
 ### Características Técnicas:
+
 - 📱 **100% Responsivo** (mobile-first)
 - ⚡ **Performance otimizada** (build: 368KB gzipped)
 - 🎨 **Design minimalista e profissional**
@@ -81,6 +83,7 @@ Todo **push na branch `main`** faz deploy automático na VPS!
 ### ⚡ Setup Rápido (5 minutos):
 
 **1. Na VPS, execute o script de setup:**
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/VanthuirMaia/LP_Axio/main/setup-vps.sh -o setup.sh
 chmod +x setup.sh
@@ -92,6 +95,7 @@ chmod +x setup.sh
 Acesse: https://github.com/VanthuirMaia/LP_Axio/settings/secrets/actions
 
 Adicione os 3 secrets que o script gerou (ele mostrará os valores):
+
 - `VPS_HOST`
 - `VPS_USERNAME`
 - `VPS_SSH_KEY`
@@ -114,6 +118,7 @@ Ver deploy: https://github.com/VanthuirMaia/LP_Axio/actions
 ## 💻 Desenvolvimento Local
 
 ### Pré-requisitos
+
 - Node.js 20+
 - npm ou yarn
 
@@ -160,6 +165,7 @@ chmod +x deploy.sh
 ## 🛠️ Stack Tecnológica
 
 ### Frontend
+
 - React 18.3.1
 - TypeScript 5.8.3
 - Tailwind CSS 3.4.17
@@ -167,11 +173,13 @@ chmod +x deploy.sh
 - Lucide React (ícones)
 
 ### Build & Dev
+
 - Vite 5.4.19
 - PostCSS + Autoprefixer
 - ESLint 9.32.0
 
 ### Deploy
+
 - Docker + Docker Compose
 - Nginx Alpine
 - Traefik (proxy reverso + SSL)
@@ -191,6 +199,7 @@ chmod +x deploy.sh
 ## 🔧 Configuração
 
 ### WhatsApp
+
 Edite: `src/lib/whatsapp.ts`
 
 ```typescript
@@ -200,10 +209,13 @@ export const MSG_DEMO = "Quero agendar uma demonstração";
 ```
 
 ### SEO e Meta Tags
+
 Edite: `index.html`
 
 ### Traefik
+
 O `docker-compose.yml` já está configurado para:
+
 - SSL automático (Let's Encrypt)
 - Redirect HTTP → HTTPS
 - Redirect www → non-www
@@ -231,15 +243,18 @@ O `docker-compose.yml` já está configurado para:
 ## 🚨 Troubleshooting
 
 ### Deploy falha no GitHub Actions?
+
 Ver logs: https://github.com/VanthuirMaia/LP_Axio/actions
 
 ### Container não inicia na VPS?
+
 ```bash
 docker-compose logs axio_lp
 docker ps | grep axio
 ```
 
 ### Traefik não roteia?
+
 ```bash
 docker logs gestto_traefik | grep axio
 docker network inspect gestto_default
