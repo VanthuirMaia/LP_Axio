@@ -1,0 +1,105 @@
+name: Deploy Landing Page AXIO
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Permite executar manualmente
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Create deployment archive
+        run: |
+          tar -czf dist.tar.gz dist/
+          tar -czf configs.tar.gz nginx.conf docker-compose.yml Dockerfile
+
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            # Criar diretório se não existir
+            mkdir -p /opt/axio/landing-page
+            cd /opt/axio/landing-page
+
+            # Backup do container atual (caso precise reverter)
+            if [ "$(docker ps -q -f name=axio_lp)" ]; then
+              echo "Stopping current container..."
+              docker stop axio_lp || true
+              docker rename axio_lp axio_lp_backup_$(date +%Y%m%d_%H%M%S) || true
+            fi
+
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          source: "dist.tar.gz,configs.tar.gz"
+          target: "/opt/axio/landing-page/"
+
+      - name: Extract and start new container
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            cd /opt/axio/landing-page
+
+            # Extrair arquivos
+            tar -xzf dist.tar.gz
+            tar -xzf configs.tar.gz
+            rm dist.tar.gz configs.tar.gz
+
+            # Build e start do container
+            docker-compose build --no-cache
+            docker-compose up -d
+
+            # Aguardar container iniciar
+            sleep 5
+
+            # Verificar saúde do container
+            if docker ps | grep -q axio_lp; then
+              echo "✅ Deploy successful! Container is running."
+              docker-compose logs --tail=50
+
+              # Limpar backups antigos (manter últimos 3)
+              docker ps -a | grep axio_lp_backup | tail -n +4 | awk '{print $1}' | xargs -r docker rm
+            else
+              echo "❌ Deploy failed! Container not running."
+              docker-compose logs
+              exit 1
+            fi
+
+      - name: Notify deployment status
+        if: always()
+        run: |
+          if [ ${{ job.status }} == 'success' ]; then
+            echo "🎉 Deployment completed successfully!"
+          else
+            echo "❌ Deployment failed!"
+          fi

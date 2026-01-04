@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  axio_lp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: axio_lp
+    restart: unless-stopped
+    networks:
+      - gestto_default  # Mesma rede do Traefik e Gestto
+    labels:
+      # Habilitar Traefik
+      - "traefik.enable=true"
+
+      # Configuração HTTP (redireciona para HTTPS)
+      - "traefik.http.routers.axio-lp-http.rule=Host(`axio.com.br`) || Host(`www.axio.com.br`)"
+      - "traefik.http.routers.axio-lp-http.entrypoints=web"
+      - "traefik.http.routers.axio-lp-http.middlewares=redirect-to-https"
+
+      # Configuração HTTPS
+      - "traefik.http.routers.axio-lp.rule=Host(`axio.com.br`) || Host(`www.axio.com.br`)"
+      - "traefik.http.routers.axio-lp.entrypoints=websecure"
+      - "traefik.http.routers.axio-lp.tls=true"
+      - "traefik.http.routers.axio-lp.tls.certresolver=letsencrypt"
+
+      # Serviço
+      - "traefik.http.services.axio-lp.loadbalancer.server.port=80"
+
+      # Middleware: Redirect HTTP -> HTTPS
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
+
+      # Middleware: Redirect www -> non-www
+      - "traefik.http.middlewares.axio-www-redirect.redirectregex.regex=^https://www\\.axio\\.com\\.br/(.*)"
+      - "traefik.http.middlewares.axio-www-redirect.redirectregex.replacement=https://axio.com.br/$${1}"
+      - "traefik.http.middlewares.axio-www-redirect.redirectregex.permanent=true"
+
+      # Aplicar middlewares
+      - "traefik.http.routers.axio-lp.middlewares=axio-www-redirect"
+
+      # Security headers
+      - "traefik.http.middlewares.axio-security.headers.frameDeny=true"
+      - "traefik.http.middlewares.axio-security.headers.contentTypeNosniff=true"
+      - "traefik.http.middlewares.axio-security.headers.browserXssFilter=true"
+      - "traefik.http.middlewares.axio-security.headers.stsSeconds=31536000"
+      - "traefik.http.middlewares.axio-security.headers.stsIncludeSubdomains=true"
+
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+networks:
+  gestto_default:
+    external: true  # Usa a rede existente do Gestto/Traefik

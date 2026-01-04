@@ -17,18 +17,19 @@ const HeroSection = () => {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2 mb-8 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
             <Bot className="w-4 h-4 text-primary" />
-            <span className="text-sm text-primary font-medium">Automação Inteligente</span>
+            <span className="text-sm text-primary font-medium">Software House & Automação com IA</span>
           </div>
 
           {/* Main headline */}
           <h1 className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            Automação Inteligente para quem{" "}
-            <span className="text-gradient">lidera o próprio negócio</span>
+            Transforme seu negócio com{" "}
+            <span className="text-gradient">automação inteligente</span>
           </h1>
 
           {/* Subheadline */}
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            Aumente sua agenda, reduza faltas e ofereça um atendimento moderno, sem apps, sem complicação e sem perder tempo no WhatsApp.
+            Soluções sob medida em IA e automação que aumentam sua produtividade,
+            reduzem custos operacionais e escalam seu atendimento sem comprometer a qualidade.
           </p>
 
           {/* CTA buttons */}
@@ -44,7 +45,7 @@ const HeroSection = () => {
                 )
               }
             >
-              Quero automatizar meu atendimento
+              Conhecer nossas soluções
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
 
@@ -59,7 +60,7 @@ const HeroSection = () => {
                 )
               }
             >
-              Ver demonstração
+              Agendar demonstração
             </Button>
 
           </div>

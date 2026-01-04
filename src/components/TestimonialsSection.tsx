@@ -1,23 +1,29 @@
-import { Quote, Star } from "lucide-react";
+import { Quote, Star, TrendingUp } from "lucide-react";
 
 const testimonials = [
   {
-    quote: "Depois da Axio, minha agenda nunca mais ficou vazia.",
+    quote: "Depois da Axio, minha agenda nunca mais ficou vazia. A redução de faltas foi impressionante e consegui aumentar meu faturamento significativamente.",
     author: "Brandão Barbearia",
     role: "Pedro Brandão, Proprietário",
+    location: "Recife, PE",
     rating: 5,
+    metric: "↑ 35% agendamentos",
   },
   {
-    quote: "A automação reduziu meu tempo no WhatsApp em 70%.",
+    quote: "A automação reduziu meu tempo no WhatsApp em 70%. Agora posso focar no que realmente importa: atender bem minhas clientes.",
     author: "Studio Nails Design",
     role: "Walquíria Brito, Empresária",
+    location: "São Paulo, SP",
     rating: 5,
+    metric: "↓ 70% tempo no WhatsApp",
   },
-    {
-    quote: "Agora, meu controle de clientes é feito pela IA.",
+  {
+    quote: "Agora, meu controle de clientes é feito pela IA. O sistema entende meu negócio e mantém minha essência enquanto automatiza processos.",
     author: "Bernardo Barbearia",
     role: "Alex Bernardinho, Visagista",
+    location: "Rio de Janeiro, RJ",
     rating: 5,
+    metric: "98% satisfação",
   },
 ];
 
@@ -49,15 +55,21 @@ const TestimonialsSection = () => {
                   <Quote className="w-5 h-5 text-primary-foreground" />
                 </div>
 
-                {/* Rating */}
-                <div className="flex gap-1 mb-6">
-                  {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="w-4 h-4 fill-primary text-primary" />
-                  ))}
+                {/* Rating & Metric */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex gap-1">
+                    {Array.from({ length: testimonial.rating }).map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-1 bg-primary/10 px-3 py-1 rounded-full">
+                    <TrendingUp className="w-3 h-3 text-primary" />
+                    <span className="text-xs font-semibold text-primary">{testimonial.metric}</span>
+                  </div>
                 </div>
 
                 {/* Quote */}
-                <blockquote className="text-lg font-medium mb-6 leading-relaxed">
+                <blockquote className="text-base font-medium mb-6 leading-relaxed text-foreground/90">
                   "{testimonial.quote}"
                 </blockquote>
 
@@ -65,6 +77,7 @@ const TestimonialsSection = () => {
                 <div className="pt-6 border-t border-border/50">
                   <p className="font-display font-semibold">{testimonial.author}</p>
                   <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+                  <p className="text-xs text-muted-foreground/70 mt-1">{testimonial.location}</p>
                 </div>
               </div>
             ))}
