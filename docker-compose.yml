@@ -12,12 +12,12 @@ services:
       - "traefik.enable=true"
 
       # Configuração HTTP (redireciona para HTTPS)
-      - "traefik.http.routers.axio-lp-http.rule=Host(`axio.com.br`) || Host(`www.axio.com.br`)"
+      - "traefik.http.routers.axio-lp-http.rule=Host(`axiodev.cloud`) || Host(`www.axiodev.cloud`)"
       - "traefik.http.routers.axio-lp-http.entrypoints=web"
       - "traefik.http.routers.axio-lp-http.middlewares=redirect-to-https"
 
       # Configuração HTTPS
-      - "traefik.http.routers.axio-lp.rule=Host(`axio.com.br`) || Host(`www.axio.com.br`)"
+      - "traefik.http.routers.axio-lp.rule=Host(`axiodev.cloud`) || Host(`www.axiodev.cloud`)"
       - "traefik.http.routers.axio-lp.entrypoints=websecure"
       - "traefik.http.routers.axio-lp.tls=true"
       - "traefik.http.routers.axio-lp.tls.certresolver=letsencrypt"
@@ -30,8 +30,8 @@ services:
       - "traefik.http.middlewares.redirect-to-https.redirectscheme.permanent=true"
 
       # Middleware: Redirect www -> non-www
-      - "traefik.http.middlewares.axio-www-redirect.redirectregex.regex=^https://www\\.axio\\.com\\.br/(.*)"
-      - "traefik.http.middlewares.axio-www-redirect.redirectregex.replacement=https://axio.com.br/$${1}"
+      - "traefik.http.middlewares.axio-www-redirect.redirectregex.regex=^https://www\\.axiodev\\.cloud/(.*)"
+      - "traefik.http.middlewares.axio-www-redirect.redirectregex.replacement=https://axiodev.cloud/$${1}"
       - "traefik.http.middlewares.axio-www-redirect.redirectregex.permanent=true"
 
       # Aplicar middlewares
