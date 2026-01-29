@@ -11,7 +11,7 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=gestto_gestto-network"
       - "traefik.http.routers.axio-lp.entrypoints=websecure"
-      - "traefik.http.routers.axio-lp.rule=Host(`axiodev.cloud`)"
+      - "traefik.http.routers.axio-lp.rule=Host(`axiodev.cloud`) || Host(`www.axiodev.cloud`)"
       - "traefik.http.routers.axio-lp.tls=true"
       - "traefik.http.routers.axio-lp.tls.certresolver=letsencrypt"
       - "traefik.http.services.axio-lp.loadbalancer.server.port=80"
