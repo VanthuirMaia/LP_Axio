@@ -41,12 +41,11 @@ jobs:
           script: |
             cd /var/www/axio-lp
 
-            # Backup do container atual (caso precise reverter)
-            if [ "$(docker ps -q -f name=axio_lp)" ]; then
-              echo "Stopping current container..."
-              docker stop axio_lp || true
-              docker rename axio_lp axio_lp_backup_$(date +%Y%m%d_%H%M%S) || true
-            fi
+            # Parar e remover container atual e backups antigos
+            docker stop axio_lp 2>/dev/null || true
+            docker rm axio_lp 2>/dev/null || true
+            docker ps -a --filter "name=axio_lp_backup" -q | xargs -r docker stop 2>/dev/null || true
+            docker ps -a --filter "name=axio_lp_backup" -q | xargs -r docker rm 2>/dev/null || true
 
       - name: Copy files to VPS
         uses: appleboy/scp-action@v0.1.7
@@ -86,10 +85,7 @@ jobs:
             # Verificar saúde do container
             if docker ps | grep -q axio_lp; then
               echo "✅ Deploy successful! Container is running."
-              docker-compose logs --tail=50
-
-              # Limpar backups antigos (manter últimos 3)
-              docker ps -a | grep axio_lp_backup | tail -n +4 | awk '{print $1}' | xargs -r docker rm
+              docker-compose logs --tail=20
             else
               echo "❌ Deploy failed! Container not running."
               docker-compose logs
