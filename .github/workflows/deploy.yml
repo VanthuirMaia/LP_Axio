@@ -39,9 +39,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
-            # Criar diretório se não existir
-            mkdir -p /opt/axio/landing-page
-            cd /opt/axio/landing-page
+            cd /var/www/axio-lp
 
             # Backup do container atual (caso precise reverter)
             if [ "$(docker ps -q -f name=axio_lp)" ]; then
@@ -58,7 +56,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           source: "dist.tar.gz,configs.tar.gz"
-          target: "/opt/axio/landing-page/"
+          target: "/var/www/axio-lp/"
 
       - name: Extract and start new container
         uses: appleboy/ssh-action@v1.0.3
@@ -68,7 +66,7 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || 22 }}
           script: |
-            cd /opt/axio/landing-page
+            cd /var/www/axio-lp
 
             # Extrair arquivos
             tar -xzf dist.tar.gz
