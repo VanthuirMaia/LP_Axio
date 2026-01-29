@@ -68,6 +68,9 @@ jobs:
           script: |
             cd /var/www/axio-lp
 
+            # Limpar arquivos antigos
+            rm -rf dist/
+
             # Extrair arquivos
             tar -xzf dist.tar.gz
             tar -xzf configs.tar.gz
